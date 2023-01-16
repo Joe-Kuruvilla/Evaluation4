@@ -2,6 +2,7 @@ package com.masai.app.Entity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -25,6 +26,9 @@ public class User
 {
 	@Id
 	@GeneratedValue
+	private int userId;
+	@Pattern(regexp="^(?=.*[0-9])" + "(?=.*[a-z])(?=.*[A-Z])" + "(?=.*[@#$%^&+=])" + "(?=\\S+$).{6,12}$",message = "{password.invalid}")
+	private String password;
 	private String email;
 	@Pattern(regexp="^[A-Z][a-z]*",message = "{firstName.invalid}")
 	private String firstName;
@@ -34,7 +38,7 @@ public class User
 	private String mobileNo;
 	@Past
 	private LocalDate dateOfBirth;
+	private List<Email> inbox;
+	private List<Email> starred;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-	private List<Email> emails=new ArrayList<>();
 }

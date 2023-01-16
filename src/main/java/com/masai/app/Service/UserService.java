@@ -1,5 +1,6 @@
 package com.masai.app.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,34 @@ public class UserService
 		return rep.save(user);
 	}
 	
-	public List<Email> getAllMail(int emailid) {
-		return rep.findEmail(emailid);
+	public List<Email> displayAllMails(int id)
+	{
+		return rep.findEmails(id);
 	}
 	
-	public User newFir(int id,Fir fir) {
-		User user=rep.findById(id).get();
-		user.getFir().add(fir);
-		fir.setUser(user);
-		return rep.save(user);
+	public List<Email> displayStarMails(int id)
+	{
+		return rep.findStarEmails(id);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public boolean sentMail(int id, Email email)
+	{
+		rep.getById(id).getInbox().add(email);
+		return true;
+	}
+	@SuppressWarnings("deprecation")
+	public boolean starredMail(int id, Email email)
+	{
+		rep.getById(id).getStarred().add(email);
+		return true;
+	}
+	@SuppressWarnings("deprecation")
+	public boolean deleteMail(int userId, int emailId)
+	{
+		rep.getById(userId).getInbox().remove(emailId);
+		rep.getById(userId).getStarred().remove(emailId);
+		return true;
 	}
 	
 }
